@@ -1,6 +1,8 @@
 #ifndef SORT_H
 #define SORT_H
 
+#include <stddef.h>
+
 /* DATA STRUCTURES */
 /* --------------- */
 
@@ -19,11 +21,23 @@ typedef struct listint_s
 } listint_t;
 
 
+
 /* FUNCTION PROTOTYPES */
 /* -------------------- */
+
+/* File - print_array.c */
 void print_array(const int *array, size_t size);
+
+/* File - print_list.c */
 void print_list(const listint_t *list);
+
+/* File - 0-bubble_sort.c */
 void bubble_sort(int *array, size_t size);
 
+/* File - 1-insertion_sort_list.c */
+void insertion_sort_list(listint_t **list);
+listint_t *find_position(int val, listint_t *succ);
+void remove_node(listint_t *node);
+listint_t *insert_node(listint_t **list, listint_t *node, listint_t *succ);
 
 #endif /* SORT_H */
