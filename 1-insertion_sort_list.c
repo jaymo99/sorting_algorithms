@@ -13,108 +13,72 @@ void insertion_sort_list(listint_t **list)
 	listint_t *head;
 	listint_t *node;
 	listint_t *temp;
-	listint_t *pos;
+	listint_t *prev;
 
-	if (!list)
+	if (!list || (*list)->next == NULL)
 	{
 		return;
 	}
 
 	head = *list;
-	node = head;
-	while (node->next)
+	node = head->next;
+	while (node)
 	{
-		temp = node->next;
-		if (node->n > temp->n)
+		prev = node->prev;
+		if (node->n < prev->n)
 		{
-			remove_node(temp);
-			pos = find_position(temp->n, node);
-			head = insert_node(list, temp, pos);
-
-			if (head != *list)
-			{
-				*list = head;
-			}
-			print_list(*list);
-		}
-		else
-		{
+			temp = node;
 			node = node->next;
+			find_position(list, temp);
+			continue;
 		}
+		node = node->next;
 	}
 }
 
 /**
- * find_position - finds ordered list position to insert a node.
+ * swap_nodes - interchange the position of 2 nodes in a list.
  *
- * @val: integer value
- * @succ: successor node
- *
- * Return: returns the successor node of the identified position.
+ * @list: double linked list
+ * @n1: first node (on the left of n2)
+ * @n2: second node (on the right of n1)
  */
-listint_t *find_position(int val, listint_t *succ)
+void swap_nodes(listint_t **list, listint_t *n1, listint_t *n2)
 {
-	listint_t *prev = succ->prev;
+	listint_t *temp;
 
-	if (prev == NULL || prev->n <= val)
+	temp = n2->next;
+
+	n2->prev = n1->prev;
+	n2->next = n1;
+	if (n1 == *list)
 	{
-		return (succ);
+		*list = n2;
 	}
-	return (find_position(val, prev));
+
+	n1->prev = n2;
+	n1->next = temp;
 }
 
 /**
- * remove_node - removes node/item from doubly linked list
+ * find_position - inserts a node into ordered position in list.
  *
- * Description: Can remove any node except the head/first node
- *
- * NOTE: the node is only removed but not deleted
- *
- * @node: node/list-item to be removed
+ * @list: double linked list.
+ * @node: list item (holds an integer value)
  */
-void remove_node(listint_t *node)
+void find_position(listint_t **list, listint_t *node)
 {
-	listint_t *prev = node->prev;
-	listint_t *next = node->next;
+	listint_t *temp;
 
-	node->prev = NULL;
-	node->next = NULL;
-
-	if (prev)
+	if (!node || node->prev == NULL)
 	{
-		prev->next = next;
+		return;
 	}
-	if (next)
+	if (node < node->prev)
 	{
-		next->prev = prev;
+		temp = node;
+		swap_nodes(list, node->prev, node);
+		print_list(*list);
+		find_position(list, temp);
 	}
-}
-
-/**
- * insert_node - inserts node at a position in double linked list.
- *
- * @list: doubly linked list of integers.
- * @node: node to be inserted
- * @succ: node succeeding the inserted node
- *
- * Return: head/first-node of the doubly linked list.
- */
-listint_t *insert_node(listint_t **list, listint_t *node, listint_t *succ)
-{
-	listint_t *prev = succ->prev;
-
-	if (prev)
-	{
-		prev->next = node;
-	}
-	node->prev = prev;
-	node->next = succ;
-	succ->prev = node;
-
-	if (node->prev == NULL)
-	{
-		return (node);
-	}
-
-	return (*list);
 }
