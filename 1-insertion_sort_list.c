@@ -12,7 +12,6 @@ void insertion_sort_list(listint_t **list)
 {
 	listint_t *head;
 	listint_t *node;
-	listint_t *temp;
 	listint_t *prev;
 
 	if (!list || (*list)->next == NULL)
@@ -27,12 +26,33 @@ void insertion_sort_list(listint_t **list)
 		prev = node->prev;
 		if (node->n < prev->n)
 		{
-			temp = node;
-			node = node->next;
-			find_position(list, temp);
-			continue;
+			find_position(list, node);
 		}
 		node = node->next;
+	}
+}
+
+/**
+ * find_position - inserts a node into ordered position in list.
+ *
+ * @list: double linked list.
+ * @node: list item (holds an integer value)
+ */
+void find_position(listint_t **list, listint_t *node)
+{
+	listint_t *prev;
+	prev = node->prev;
+
+	if (!node || prev == NULL)
+	{
+		return;
+	}
+
+	if (node->n < prev->n)
+	{
+		swap_nodes(list, prev, node);
+		print_list(*list);
+		find_position(list, node);
 	}
 }
 
@@ -45,43 +65,29 @@ void insertion_sort_list(listint_t **list)
  */
 void swap_nodes(listint_t **list, listint_t *n1, listint_t *n2)
 {
-	listint_t *temp;
+	/* nodes preceding and succeeding the n1-n2 pair */
+	listint_t *prec;
+	listint_t *succ;
 
-	temp = n2->next;
+	prec = n1->prev;
+	succ = n2->next;
 
-	n2->prev = n1->prev;
+	if (prec)
+	{
+		prec->next = n2;
+	}
+	if (succ)
+	{
+		succ->prev = n1;
+	}
+
+	n1->prev = n2;
+	n1->next = succ;
+
+	n2->prev = prec;
 	n2->next = n1;
 	if (n1 == *list)
 	{
 		*list = n2;
-	}
-
-	n1->prev = n2;
-	n1->next = temp;
-}
-
-/**
- * find_position - inserts a node into ordered position in list.
- *
- * @list: double linked list.
- * @node: list item (holds an integer value)
- */
-void find_position(listint_t **list, listint_t *node)
-{
-	listint_t *temp;
-	listint_t *prev;
-
-	if (!node || node->prev == NULL)
-	{
-		return;
-	}
-
-	prev = node->prev
-	if (node->n < prev->n)
-	{
-		temp = node;
-		swap_nodes(list, prev, node);
-		print_list(*list);
-		find_position(list, temp);
 	}
 }
