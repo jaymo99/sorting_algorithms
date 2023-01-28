@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * insertion_sort_list - sorts a doubly linked list on ints
+ * insertion_sort_list - sorts a doubly linked list of ints
  *
  * Description: uses 'insertion sort' algorithm to sort the list
  * in ascending order.
@@ -69,15 +69,18 @@ void swap_nodes(listint_t **list, listint_t *n1, listint_t *n2)
 void find_position(listint_t **list, listint_t *node)
 {
 	listint_t *temp;
+	listint_t *prev;
 
 	if (!node || node->prev == NULL)
 	{
 		return;
 	}
-	if (node < node->prev)
+
+	prev = node->prev
+	if (node->n < prev->n)
 	{
 		temp = node;
-		swap_nodes(list, node->prev, node);
+		swap_nodes(list, prev, node);
 		print_list(*list);
 		find_position(list, temp);
 	}
