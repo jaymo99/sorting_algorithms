@@ -41,8 +41,8 @@ void insertion_sort_list(listint_t **list)
 void find_position(listint_t **list, listint_t *node)
 {
 	listint_t *prev;
-	prev = node->prev;
 
+	prev = node->prev;
 	if (!node || prev == NULL)
 	{
 		return;
