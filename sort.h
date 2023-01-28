@@ -39,4 +39,8 @@ void insertion_sort_list(listint_t **list);
 void find_position(listint_t **list, listint_t *node);
 void swap_nodes(listint_t **list, listint_t *n1, listint_t *n2);
 
+/* File - 2-selection_sort.c */
+void selection_sort(int *array, size_t size);
+
+
 #endif /* SORT_H */
