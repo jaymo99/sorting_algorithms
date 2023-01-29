@@ -21,6 +21,22 @@ typedef struct listint_s
 } listint_t;
 
 
+/**
+ * struct p_array - printable array
+ *
+ * Description: used to keep track of the initial/original
+ * unpartitioned array that can be printed in full.
+ *
+ * @array: array of integers
+ * @size: size of the array
+ */
+typedef struct p_array
+{
+	const int *array;
+	size_t size;
+} p_array;
+
+
 
 /* FUNCTION PROTOTYPES */
 /* -------------------- */
@@ -41,6 +57,12 @@ void swap_nodes(listint_t **list, listint_t *n1, listint_t *n2);
 
 /* File - 2-selection_sort.c */
 void selection_sort(int *array, size_t size);
+
+/* File - 3-quick_sort.c */
+void quick_sort(int *array, size_t size);
+void q_sort(p_array printable, int *array, size_t size);
+int partition(p_array printable, int *array, int low, int high);
+
 
 
 #endif /* SORT_H */
